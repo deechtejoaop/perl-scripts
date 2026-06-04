@@ -1,6 +1,7 @@
-# A simple Perl program for decoding email format into text.
-# Author: J. P. Rodrigues <deechtejoao@gmail.org>
+#!/usr/bin/env perl
 
+# A simple Perl program for decoding email format into text.
+# Author: J. P. Rodrigues <deechtejoao@gmail.com>
 
 use warnings;
 use strict;

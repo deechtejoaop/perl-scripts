@@ -1,6 +1,7 @@
-# A simple perl program to decode email format.
-# Author: J. P. Rodrigues <deechtejoao@gmail.org>
+#!/usr/bin/env perl
 
+# A simple perl program to decode email format.
+# Author: J. P. Rodrigues <deechtejoao@gmail.com>
 
 use warnings;
 use strict;
