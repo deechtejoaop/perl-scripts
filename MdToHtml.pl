@@ -55,7 +55,13 @@ sub parse_markdown {
         elsif ($line eq '') {
             _close_blocks(\@html, \$in_list);
         }
-        
+
+        # Horizontal rules
+        elsif ($line =~ /^ {0,3}([-_*])(?:[ \t]*\1){2,}[ \t]*$/) {
+            _close_blocks(\@html, \$in_list);
+            push @html, "<hr>";
+        }
+
         else {
             _close_blocks(\@html, \$in_list);
             push @html, "<p>" . _process_inline($line) . "</p>";
@@ -115,6 +121,9 @@ sub _render_metadata {
 
 sub _process_inline {
     my ($text) = @_;
+
+    # Hyperlinks: [text](url)
+    $text =~ s/\[([^\[\]]+)\]\(([^()]+)\)/<a href="$2">$1<\/a>/g;
 
     # Bold: **bold** or __bold__
     $text =~ s/\*\*(?=\S)(.+?)(?<=\S)\*\*(?!\*)/<strong>$1<\/strong>/g;
