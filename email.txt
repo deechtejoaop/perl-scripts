@@ -1,0 +1,32 @@
+abc.def@xyz.com
+lmn.opq@rst.com
+uvw.xyz@abc.com
+qaz.wsx@edc.com
+rfv.tgb@yhn.com
+ujm.ikl@omp.com
+poi.uyt@rew.com
+lkj.hgf@dsa.com
+mnb.vcx@zxc.com
+aaa.bbb@ccc.com
+ddd.eee@fff.com
+ggg.hhh@iii.com
+jjj.kkk@lll.com
+mmm.nnn@ooo.com
+ppp.qqq@rrr.com
+
+
+abc dot def at xyz dot com 
+lmn dot opq at rst dot com 
+uvw dot xyz at abc dot com 
+qaz dot wsx at edc dot com 
+rfv dot tgb at yhn dot com 
+ujm dot ikl at omp dot com 
+poi dot uyt at rew dot com 
+lkj dot hgf at dsa dot com 
+mnb dot vcx at zxc dot com 
+aaa dot bbb at ccc dot com 
+ddd dot eee at fff dot com 
+ggg dot hhh at iii dot com 
+jjj dot kkk at lll dot com 
+mmm dot nnn at ooo dot com 
+ppp dot qqq at rrr dot com 
