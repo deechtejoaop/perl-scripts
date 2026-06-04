@@ -33,13 +33,13 @@ sub parse_markdown {
         if ($line =~ /^(#{1,6})\s+(.*)$/) {
             _close_blocks(\@html, \$in_list);
             my $level = length($1);
-            push @html, "<h$level>$2</h$level>";
+            push @html, "<h$level>" . _process_inline($2) . "</h$level>";
         }
         
         # Blockquotes
         elsif ($line =~ /^>\s+(.*)$/) {
             _close_blocks(\@html, \$in_list);
-            push @html, "<blockquote>$1</blockquote>";
+            push @html, "<blockquote>" . _process_inline($1) . "</blockquote>";
         }
         
         # Unordered Lists (Hyphens or Asterisks)
@@ -48,7 +48,7 @@ sub parse_markdown {
                 push @html, "<ul>";
                 $in_list = 1;
             }
-            push @html, "  <li>$1</li>";
+            push @html, "  <li>" . _process_inline($1) . "</li>";
         }
         
         # Blank lines (Structural dividers reset state)
@@ -58,7 +58,7 @@ sub parse_markdown {
         
         else {
             _close_blocks(\@html, \$in_list);
-            push @html, "<p>$line</p>";
+            push @html, "<p>" . _process_inline($line) . "</p>";
         }
     }
     _close_blocks(\@html, \$in_list);
@@ -113,6 +113,20 @@ sub _render_metadata {
     push @$html_ref, '</div>';
 }
 
+sub _process_inline {
+    my ($text) = @_;
+
+    # Bold: **bold** or __bold__
+    $text =~ s/\*\*(?=\S)(.+?)(?<=\S)\*\*(?!\*)/<strong>$1<\/strong>/g;
+    $text =~ s/\b__(?=\S)(.+?)(?<=\S)__\b/<strong>$1<\/strong>/g;
+
+    # Italic: *italic* or _italic_
+    $text =~ s/(?<!\*)\*(?!\*)(?=\S)(.+?)(?<=\S)(?<!\*)\*(?!\*)/<em>$1<\/em>/g;
+    $text =~ s/\b_(?=\S)(.+?)(?<=\S)_\b/<em>$1<\/em>/g;
+
+    return $text;
+}
+
 if (@ARGV != 1) {
     die "Usage: $0 file.md\n";
 }
@@ -129,4 +143,4 @@ my $markdown_content = do {
 
 close $fh;
 
-print parse_markdown($markdown_content);
+print parse_markdown($markdown_content, $filename);
