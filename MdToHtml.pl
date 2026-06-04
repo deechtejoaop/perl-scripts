@@ -87,16 +87,126 @@ sub parse_markdown {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$page_title</title>
     <style>
-        body {
-            max-width: 80ch;
-            margin: 0 auto;
-            padding: 20px;
-            font-family: sans-serif;
-            text-align: center;
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #3730a3;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-main: #f9fafb;
+            --bg-card: #ffffff;
+            --border-color: #e5e7eb;
         }
-        ul {
-            list-style-position: inside;
-            padding: 0;
+
+        body {
+            max-width: 68ch;
+            margin: 0 auto;
+            padding: 40px 24px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Title / Header Styling */
+        h1, h2, h3, h4, h5, h6 {
+            color: #111827;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            letter-spacing: -0.02em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+        }
+
+        /* Paragraphs & Text */
+        p {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1.5px solid rgba(79, 70, 229, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+            border-bottom-color: var(--primary-hover);
+        }
+
+        /* Blockquotes */
+        blockquote {
+            margin: 2rem 0;
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            border-left: 4px solid var(--primary);
+            background: linear-gradient(to right, rgba(79, 70, 229, 0.04), transparent);
+            font-style: italic;
+            color: #4b5563;
+        }
+        
+        blockquote p {
+            margin-bottom: 0;
+        }
+        
+        blockquote p + p {
+            margin-top: 1rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Metadata container */
+        .metadata {
+            margin-bottom: 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        .metadata h1 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+        }
+
+        .metadata-date {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Horizontal Rule */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 3rem 0;
         }
     </style>
 </head>
@@ -178,12 +288,10 @@ sub _close_active_blocks {
 
 sub _render_metadata {
     my ($html_ref, $meta) = @_;
-    push @$html_ref, '<div class="metadata">';
-    push @$html_ref, '  <div style="padding: 15px;">';
-    push @$html_ref, '    <h2 style="margin: 0; padding: 10px 20px; border: 1px solid #333; background-color: #f5f5f5; color: #222; display: inline-block;">' . $meta->{title} . '</h2>' if $meta->{title};
-    push @$html_ref, '    <div style="color: #666; font-size: 0.9em; font-style: italic; margin-top: 10px;">Published: ' . $meta->{date} . '</div>' if $meta->{date};
-    push @$html_ref, '  </div>';
-    push @$html_ref, '</div>';
+    push @$html_ref, '<header class="metadata">';
+    push @$html_ref, '  <h1>' . $meta->{title} . '</h1>' if $meta->{title};
+    push @$html_ref, '  <div class="metadata-date">Published on ' . $meta->{date} . '</div>' if $meta->{date};
+    push @$html_ref, '</header>';
 }
 
 sub _process_inline {
