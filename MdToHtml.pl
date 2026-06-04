@@ -5,7 +5,7 @@ use warnings;
 sub parse_markdown {
     my ($markdown, $filename) = @_;
     my @html;
-   
+
     my $in_list = 0;
     my %metadata;
     my $parsing_metadata = 1;
@@ -73,6 +73,19 @@ sub parse_markdown {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$page_title</title>
+    <style>
+        body {
+            max-width: 80ch;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        ul {
+            list-style-position: inside;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
 $body_content
@@ -92,9 +105,11 @@ sub _close_blocks {
 
 sub _render_metadata {
     my ($html_ref, $meta) = @_;
-    push @$html_ref, '<div class="metadata" style="border: 1px solid #333; padding: 15px; margin-bottom: 25px; background-color: #f5f5f5; font-family: sans-serif;">';
-    push @$html_ref, '  <h2 style="margin: 0 0 10px 0; color: #222;">' . $meta->{title} . '</h2>' if $meta->{title};
-    push @$html_ref, '  <span style="color: #666; font-size: 0.9em; font-style: italic;">Published: ' . $meta->{date} . '</span>' if $meta->{date};
+    push @$html_ref, '<div class="metadata">';
+    push @$html_ref, '  <div style="padding: 15px;">';
+    push @$html_ref, '    <h2 style="margin: 0; padding: 10px 20px; border: 1px solid #333; background-color: #f5f5f5; color: #222; display: inline-block;">' . $meta->{title} . '</h2>' if $meta->{title};
+    push @$html_ref, '    <div style="color: #666; font-size: 0.9em; font-style: italic; margin-top: 10px;">Published: ' . $meta->{date} . '</div>' if $meta->{date};
+    push @$html_ref, '  </div>';
     push @$html_ref, '</div>';
 }
 
